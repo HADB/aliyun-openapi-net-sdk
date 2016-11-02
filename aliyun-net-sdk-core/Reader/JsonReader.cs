@@ -18,6 +18,7 @@
  */
 using Aliyun.Acs.Core.Utils;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
@@ -35,7 +36,7 @@ namespace Aliyun.Acs.Core.Reader
         private const int CURRENT_POSITION = 1;
         private const int NEXT_POSITION = 2;
 
-        private CharEnumerator ct;
+        private IEnumerator ct;
         private char c;
 
         private Object token;
@@ -50,15 +51,15 @@ namespace Aliyun.Acs.Core.Reader
             {'n','\n'},
             {'r','\r'},
             {'b','\b'},
-            {'f','\f'}  
+            {'f','\f'}
         };
 
         public Dictionary<String, String> Read(String response, String endpoint)
         {
-            return Read(response.GetEnumerator(), endpoint);
+            return Read(response.ToCharArray().GetEnumerator(), endpoint);
         }
 
-        public Dictionary<String, String> Read(CharEnumerator ci, String endpoint)
+        public Dictionary<String, String> Read(IEnumerator ci, String endpoint)
         {
             ct = ci;
             NextChar();
@@ -219,7 +220,7 @@ namespace Aliyun.Acs.Core.Reader
         {
             if (ct.MoveNext())
             {
-                c = ct.Current;
+                c = (char)ct.Current;
                 return c;
             }
             return null;

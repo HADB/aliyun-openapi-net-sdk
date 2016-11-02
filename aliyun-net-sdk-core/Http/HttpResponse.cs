@@ -97,9 +97,7 @@ namespace Aliyun.Acs.Core.Http
             byte[] bytes = new byte[ms.Length];
             ms.Read(bytes, 0, bytes.Length);
 
-            ms.Close();
             ms.Dispose();
-            stream.Close();
             stream.Dispose();
             return bytes;
         }
